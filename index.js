@@ -2,6 +2,7 @@ const fs = require('fs');
 const express = require('express');
 const db = require('./config/connection');
 const inquirer = require('inquirer');
+const { INITIALLY_DEFERRED } = require('sequelize/types/lib/deferrable');
 require("console.table");
 
 const app = express();
@@ -13,3 +14,5 @@ app.use(express.urlencoded({ extended: true }));
 db.sync().then(() => {
   app.listen(PORT, () => console.log('Now listening'));
 });
+
+init();
