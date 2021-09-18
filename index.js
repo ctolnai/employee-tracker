@@ -1,7 +1,8 @@
 const fs = require('fs');
 const express = require('express');
-const sequelize = require('./config/connection');
+const db = require('./config/connection');
 const inquirer = require('inquirer');
+require("console.table");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -9,6 +10,6 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-sequelize.sync().then(() => {
+db.sync().then(() => {
   app.listen(PORT, () => console.log('Now listening'));
 });
