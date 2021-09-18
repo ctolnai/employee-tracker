@@ -9,16 +9,16 @@ VALUES  ("Accounting"),
 INSERT INTO role (title, salary, department_id)
 VALUES  ("Accounts Receivable", 50000, 1),
         ("Accounts Payable", 50000, 1),
-        ("Sales Rep", 60000, 2),
-        ("VP of Sales", 80000, 2),
+        ("Inside Sales Rep", 60000, 2),
+        ("Outside Sales Rep", 80000, 2),
         ("Drafter", 40000, 3),
         ("Mechanical Engineer", 60000, 3),
         ("Electrical Engineer", 70000, 3),
         ("HR Rep", 37000, 4),
-        ("HR Manager", 65000, 4),
+        ("HR Generalist", 65000, 4),
         ("Shipping Clerk", 40000, 5),
-        ("Buyer", 55000, 6),
-        ("Purchasing Manager", 70000, 6);
+        ("Junior Buyer", 55000, 6),
+        ("Purchaser", 70000, 6);
 
 INSERT INTO employee (first_name, last_name, role_id)
 VALUES  ("Will", "Smith", 1),
