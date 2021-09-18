@@ -35,8 +35,10 @@ inquirer
         });
         break;
       case 'view all employees':
-        db.query(`SELECT CONCAT(first_name, ' ', last_name) AS 'EMPLOYEES'
-        FROM employee`, function (err, results) {
+        db.query(`SELECT employee.id AS 'EMPLOYEE ID' , employee.first_name AS 'FIRST', employee.last_name AS 'LAST', role.title AS 'JOB TITLE', department.name as 'DEPARTMENT', role.salary as 'SALARY', employee.manager_id as 'MANAGER' 
+        FROM department 
+        JOIN role ON role.department_id = department.id
+        JOIN employee ON employee.role_id = role.id`, function (err, results) {
           console.table(results);
         });
         break;
