@@ -7,11 +7,9 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
-db.sync().then(() => {
-  app.listen(PORT, () => console.log('Now listening'));
-});
+
 
 
 
@@ -25,5 +23,12 @@ inquirer
   }
 ])
 .then((res => {
-  const answer = res.todo;
+  const todo = res.todo;
+  console.log (res.todo)
+  db.query('SELECT * FROM department', function (err, results) {
+    console.table(results);
+  });
 }));
+
+
+
