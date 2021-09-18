@@ -20,17 +20,17 @@ VALUES  ("Accounts Receivable", 50000, 1),
         ("Buyer", 55000, 6),
         ("Purchasing Manager", 70000, 6);
 
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES  ("Will", "Smith", 1, 1),
-        ("Austin", "Barnes", 2, 1),
-        ("Clayton", "Kershaw", 3, 2),
-        ("Walker", "Buehler", 4, 2),
-        ("Max", "Muncy", 5, 3),
-        ("Albert", "Pujols", 5, 3),
-        ("Trea", "Turner", 6, 3),
-        ("Corey", "Seager", 7, 3),
-        ("Justin", "Turner", 8, 4),
-        ("Gavin", "Lux", 9, 4),
-        ("Cody", "Bellinger", 10, 5),
-        ("Mookie", "Betts", 11, 6),
-        ("Chris", "Taylor", 12, 6);
+INSERT INTO employee (first_name, last_name, role_id)
+VALUES  ("Will", "Smith", 1),
+        ("Austin", "Barnes", 2),
+        ("Clayton", "Kershaw", 3),
+        ("Walker", "Buehler", 4),
+        ("Max", "Muncy", 5),
+        ("Albert", "Pujols", 5),
+        ("Trea", "Turner", 6),
+        ("Corey", "Seager", 7),
+        ("Justin", "Turner", 8),
+        ("Gavin", "Lux", 9),
+        ("Cody", "Bellinger", 10),
+        ("Mookie", "Betts", 11),
+        ("Chris", "Taylor", 12);

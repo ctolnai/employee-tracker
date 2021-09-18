@@ -1,8 +1,6 @@
-const fs = require('fs');
 const express = require('express');
 const db = require('./config/connection');
 const inquirer = require('inquirer');
-const { INITIALLY_DEFERRED } = require('sequelize/types/lib/deferrable');
 require("console.table");
 
 const app = express();
@@ -15,4 +13,17 @@ db.sync().then(() => {
   app.listen(PORT, () => console.log('Now listening'));
 });
 
-init();
+
+
+inquirer
+  .prompt([
+  {
+    type: 'list',
+        message: 'What would you like to do?',
+        name: 'todo',
+        choices: ['view all departments', 'view all roles', 'view all employees', 'add a department', 'add a role', 'add an employee', 'update an employee role' ]
+  }
+])
+.then((res => {
+  const answer = res.todo;
+}));
