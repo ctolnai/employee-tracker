@@ -30,7 +30,7 @@ inquirer
         });
         break; 
       case 'view all roles':
-        db.query(`SELECT title AS 'ROLES' FROM role`, function (err, results) {
+        db.query(`SELECT role.title , role.id, department.department_name, role.salary FROM department JOIN role ON role.department_id = department.id`, function (err, results) {
           console.table(results);
         });
         break;
