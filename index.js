@@ -11,8 +11,6 @@ app.use(express.urlencoded({ extended: false }));
 
 
 
-
-
 inquirer
   .prompt([
     {
@@ -27,10 +25,10 @@ inquirer
     console.log(res.todo)
     switch (res.todo) {
       case 'view all departments':
-        db.query(`SELECT name AS 'DEPARTMENT' FROM department`, function (err, results) {
+        db.query(`SELECT id AS 'DEPARTMENT ID', name AS 'DEPARTMENT NAME' FROM department`, function (err, results) {
           console.table(results);
         });
-        break;
+        break; 
       case 'view all roles':
         db.query(`SELECT title AS 'ROLES' FROM role`, function (err, results) {
           console.table(results);
@@ -42,6 +40,8 @@ inquirer
           console.table(results);
         });
         break;
+       case 'add a department':
+
       default:
         break;
     }
