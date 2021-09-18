@@ -1,10 +1,10 @@
 INSERT INTO department (name)
-VALUES  (Accounting),
-        (Sales),
-        (Engineering),
-        (Human Resources),
-        (Shipping),
-        (Purchasing);
+VALUES  ("Accounting"),
+        ("Sales"),
+        ("Engineering"),
+        ("Human Resources"),
+        ("Shipping"),
+        ("Purchasing");
 
 INSERT INTO role (title, salary, department_id)
 VALUES  ("Accounts Receivable", 50000, 1),
@@ -20,13 +20,13 @@ VALUES  ("Accounts Receivable", 50000, 1),
         ("Buyer", 55000, 6),
         ("Purchasing Manager", 70000, 6);
 
-INSERT INTO role (first_name, last_name, role_id, manager_id)
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES  ("Will", "Smith", 1, 1),
         ("Austin", "Barnes", 2, 1),
         ("Clayton", "Kershaw", 3, 2),
         ("Walker", "Buehler", 4, 2),
         ("Max", "Muncy", 5, 3),
-        ("Albert", "Pujols", 5, 3)
+        ("Albert", "Pujols", 5, 3),
         ("Trea", "Turner", 6, 3),
         ("Corey", "Seager", 7, 3),
         ("Justin", "Turner", 8, 4),
