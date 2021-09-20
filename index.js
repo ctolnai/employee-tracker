@@ -21,7 +21,7 @@ function initilize() {
         type: 'list',
         message: 'What would you like to do?',
         name: 'todo',
-        choices: ['view all departments', 'view all roles', 'view all employees', 'add a department', 'add a role', 'add an employee', 'update an employee role', 'quit']
+        choices: ['view all departments', 'view all roles', 'view all employees', 'add a department', 'add a role', 'add an employee', 'update employee role', 'quit']
       }
     ])
     .then((res => {
@@ -58,11 +58,14 @@ function initilize() {
         case 'add an employee':
           addEmployee();
           break;
-          case 'quit':
+        case 'update employee role':
+          updateEmployee();
+          break;
+        case 'quit':
           process.exit()
           break;
         default:
-          
+
           break;
       }
 
@@ -82,7 +85,6 @@ function addDepartment() {
     .then((res) => {
       const name = res;
       db.query(`INSERT INTO department (name) VALUES ('${name.name}')`)
-      console.log(`Added ${name.name} as a new department`)
       initilize();
     })
 
@@ -94,7 +96,7 @@ function addRole() {
   db.query("SELECT * FROM department", (err, res) => {
     if (err) throw err;
     // console.log(res.map(res => res))
-    let choice = res.map(res => ({value:res.id, name:res.name}))
+    let choice = res.map(res => ({ value: res.id, name: res.name }))
     prompt([
       {
         type: 'input',
@@ -116,7 +118,7 @@ function addRole() {
       .then((res) => {
         console.log(res)
         db.query(`INSERT INTO role (title, salary, department_id) VALUES ('${res.title}', ${res.salary}, ${res.department_name})`);
-        console.log(`Added ${res.title}`);
+
         initilize();
 
       });
@@ -125,41 +127,68 @@ function addRole() {
 
 
 function addEmployee() {
-    db.query('SELECT * FROM employee JOIN role ON role.id = employee.role_id;', (err, res) => {
-      if (err) throw err;
-      const role = res.map(res => ({value:res.role_id, name:res.title}));
-      const managers = res.map(res => ({value:res.id, name:res.first_name}));
+  db.query('SELECT * FROM employee JOIN role ON role.id = employee.role_id;', (err, res) => {
+    if (err) throw err;
+    const role = res.map(res => ({ value: res.role_id, name: res.title }));
+    const managers = res.map(res => ({ value: res.id, name: res.first_name }));
 
-  // console.log(role);
-      prompt([
-        {
-          type: 'input',
-          message: "What is the employee's first name?",
-          name: 'first_name'
-        },
-        {
-          type: 'input',
-          message: "What is the employee's last name?",
-          name: 'last_name'
-        },
-        {
-          type: 'list',
-          message: "What is the employee's role?",
-          name: 'role',
-          choices: role
-        },
-        {
-          type: 'list',
-          message: "Who is the employee's manager?",
-          name: 'manager',
-          choices: managers
-        },
-      ])
-        .then((res) => {
-          const newRole = res;
-          db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('${newRole.first_name}', '${newRole.last_name}', ${newRole.role}, ${newRole.manager})`);
-          console.log(`Added ${newRole.first_name} as a new employee`)
-          initilize();
-        })
-    });
-  };
+    // console.log(role);
+    prompt([
+      {
+        type: 'input',
+        message: "What is the employee's first name?",
+        name: 'first_name'
+      },
+      {
+        type: 'input',
+        message: "What is the employee's last name?",
+        name: 'last_name'
+      },
+      {
+        type: 'list',
+        message: "What is the employee's role?",
+        name: 'role',
+        choices: role
+      },
+      {
+        type: 'list',
+        message: "Who is the employee's manager?",
+        name: 'manager',
+        choices: managers
+      },
+    ])
+      .then((res) => {
+        const newRole = res;
+        db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('${newRole.first_name}', '${newRole.last_name}', ${newRole.role}, ${newRole.manager})`);
+        initilize();
+      })
+  });
+};
+
+function updateEmployee() {
+  db.query('SELECT * FROM employee JOIN role ON role.id = employee.role_id;', (err, res) => {
+    if (err) throw err;
+    const role = res.map(res => ({ value: res.id, name: res.title }));
+    const name = res.map(res => ({ value: res.id, name: res.first_name }));
+
+    // console.log(role);
+    prompt([
+      {
+        type: 'list',
+        message: "Which employee's role do you want to update?",
+        name: 'name',
+        choices: name
+      },
+      {
+        type: 'list',
+        message: "Which role do you want to assign to the selected employee?",
+        name: 'role',
+        choices: role
+      },
+    ])
+      .then((res) => {
+        db.query(`UPDATE employee SET role_id = ${res.role} WHERE id = ${res.name}`);
+        initilize();
+      })
+  });
+};
