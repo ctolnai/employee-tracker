@@ -11,6 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 
+
 initilize();
 
 function initilize() {
@@ -50,9 +51,15 @@ function initilize() {
           break;
         case 'add a department':
           addDepartment();
+          break;
         case 'add a role':
           addRole();
+          break;
+        case 'add an employee':
+          addEmployee();
+          break;
         default:
+          process.exit()
           break;
       }
 
@@ -81,17 +88,11 @@ function addDepartment() {
 
 
 function addRole() {
-  db.query("SELECT name FROM department", (err, res) => {
+  db.query("SELECT * FROM department", (err, res) => {
     if (err) throw err;
-    // console.log(res.map(res => res.name))
-    let choice = res.map(res => res.name)
+    // console.log(res.map(res => res))
+    let choice = res.map(res => ({value:res.id, name:res.name}))
     prompt([
-      {
-        type: 'list',
-        message: 'Department?',
-        name: 'department_name',
-        choices: choice
-      },
       {
         type: 'input',
         message: 'Title?',
@@ -102,17 +103,63 @@ function addRole() {
         message: 'Salary?',
         name: 'salary'
       },
+      {
+        type: 'list',
+        message: 'Department?',
+        name: 'department_name',
+        choices: choice
+      },
     ])
-    .then((res) => {
-      for (let i = 0; i < array.length; i++) {
-        const element = array[i];
-        
-      }
-      // db.query(`UPDATE INTO department (name) VALUES (${res.department_name})`);
-      // need to enter a department_id to match with department?
-      db.query(`INSERT INTO role (title, salary) VALUES (${res.title}, ${res.salary})`);
-      console.log(`Added ${res.title}`);
-      initilize();
-    })
-});
+      .then((res) => {
+        console.log(res)
+        db.query(`INSERT INTO role (title, salary, department_id) VALUES ('${res.title}', ${res.salary}, ${res.department_name})`);
+        console.log(`Added ${res.title}`);
+        initilize();
+
+      });
+  })
+};
+
+
+function addEmployee() {
+  db.query("SELECT title FROM role", (err, res) => {
+    if (err) throw err;
+    // console.log(res.map(res => res.name))
+    let roles = res.map(res => res.title)
+    db.query('SELECT manager_id FROM employee', (err, res) => {
+      if (err) throw err;
+      const managers = res.map(res => res.manager_id)
+
+      prompt([
+        {
+          type: 'input',
+          message: 'Employee First Name',
+          name: 'first_name'
+        },
+        {
+          type: 'input',
+          message: 'Employee Last Name',
+          name: 'last_name'
+        },
+        {
+          type: 'list',
+          message: 'Employee Role',
+          name: 'role',
+          choices: roles
+        },
+        {
+          type: 'list',
+          message: 'Who is the Manager?',
+          name: 'manager',
+          choices: managers
+        },
+      ])
+        .then((res) => {
+          const newRole = res;
+          db.query(`INSERT INTO department (name) VALUES ('${newRole.first_name}')`)
+          console.log(`Added ${newRole.first_name} as a new employee`)
+          initilize();
+        })
+    });
+  });
 };
