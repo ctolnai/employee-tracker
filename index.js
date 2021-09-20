@@ -21,7 +21,7 @@ function initilize() {
         type: 'list',
         message: 'What would you like to do?',
         name: 'todo',
-        choices: ['view all departments', 'view all roles', 'view all employees', 'add a department', 'add a role', 'add an employee', 'update an employee role']
+        choices: ['view all departments', 'view all roles', 'view all employees', 'add a department', 'add a role', 'add an employee', 'update an employee role', 'quit']
       }
     ])
     .then((res => {
@@ -58,8 +58,11 @@ function initilize() {
         case 'add an employee':
           addEmployee();
           break;
-        default:
+          case 'quit':
           process.exit()
+          break;
+        default:
+          
           break;
       }
 
@@ -72,7 +75,7 @@ function addDepartment() {
   prompt([
     {
       type: 'input',
-      message: 'New department name?',
+      message: 'What is the name of the department?',
       name: 'name'
     }
   ])
@@ -95,17 +98,17 @@ function addRole() {
     prompt([
       {
         type: 'input',
-        message: 'Title?',
+        message: 'What is the name of the role?',
         name: 'title'
       },
       {
         type: 'input',
-        message: 'Salary?',
+        message: 'What is the salary of the role?',
         name: 'salary'
       },
       {
         type: 'list',
-        message: 'Department?',
+        message: 'Which department does the role belong to?',
         name: 'department_name',
         choices: choice
       },
@@ -122,44 +125,40 @@ function addRole() {
 
 
 function addEmployee() {
-  db.query("SELECT title FROM role", (err, res) => {
-    if (err) throw err;
-    // console.log(res.map(res => res.name))
-    let roles = res.map(res => res.title)
-    db.query('SELECT manager_id FROM employee', (err, res) => {
+    db.query('SELECT * FROM role', (err, res) => {
       if (err) throw err;
-      const managers = res.map(res => res.manager_id)
+      const role = res.map(res => ({value:res.id, name:res.title}));
 
+  // console.log(role);
       prompt([
         {
           type: 'input',
-          message: 'Employee First Name',
+          message: "What is the employee's first name?",
           name: 'first_name'
         },
         {
           type: 'input',
-          message: 'Employee Last Name',
+          message: "What is the employee's last name?",
           name: 'last_name'
         },
         {
           type: 'list',
-          message: 'Employee Role',
+          message: "What is the employee's role?",
           name: 'role',
-          choices: roles
+          choices: role
         },
         {
           type: 'list',
-          message: 'Who is the Manager?',
+          message: "Who is the employee's manager?",
           name: 'manager',
           choices: managers
         },
       ])
         .then((res) => {
           const newRole = res;
-          db.query(`INSERT INTO department (name) VALUES ('${newRole.first_name}')`)
+          db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('${newRole.first_name}', '${newRole.last_name}', '${newRole.role}', ${newRole.manager_id};`)
           console.log(`Added ${newRole.first_name} as a new employee`)
           initilize();
         })
     });
-  });
-};
+  };
