@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('./config/connection');
 const { prompt } = require('inquirer');
+const { Router } = require('express');
 require("console.table");
 
 const app = express();
@@ -8,6 +9,7 @@ const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 
 initilize();
 
@@ -73,32 +75,44 @@ function addDepartment() {
       console.log(`Added ${name.name} as a new department`)
       initilize();
     })
+
 }
 
+
+
 function addRole() {
-  prompt([
-    {
-      type: 'input',
-      message: 'Title?',
-      name: 'title'
-    },
-    {
-      type: 'input',
-      message: 'Salary?',
-      name: 'salary'
-    },
-    {
-      type: 'input',
-      message: 'Department?',
-      // this can't just be an input, needs to be a list from departments
-      name: 'department_name',
-    },
-  ])
+  db.query("SELECT name FROM department", (err, res) => {
+    if (err) throw err;
+    // console.log(res.map(res => res.name))
+    let choice = res.map(res => res.name)
+    prompt([
+      {
+        type: 'list',
+        message: 'Department?',
+        name: 'department_name',
+        choices: choice
+      },
+      {
+        type: 'input',
+        message: 'Title?',
+        name: 'title'
+      },
+      {
+        type: 'input',
+        message: 'Salary?',
+        name: 'salary'
+      },
+    ])
     .then((res) => {
-      const newRole = res;
+      for (let i = 0; i < array.length; i++) {
+        const element = array[i];
+        
+      }
+      // db.query(`UPDATE INTO department (name) VALUES (${res.department_name})`);
       // need to enter a department_id to match with department?
-      db.query(`INSERT INTO role (title, salary, department_id) VALUES ('${newRole.title}', ${newRole.salary}, ${newRole.department_name})`)
-      console.log(`Added ${newRole.title}`)
+      db.query(`INSERT INTO role (title, salary) VALUES (${res.title}, ${res.salary})`);
+      console.log(`Added ${res.title}`);
       initilize();
     })
-}
+});
+};
