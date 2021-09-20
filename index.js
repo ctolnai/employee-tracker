@@ -125,9 +125,10 @@ function addRole() {
 
 
 function addEmployee() {
-    db.query('SELECT * FROM role', (err, res) => {
+    db.query('SELECT * FROM employee JOIN role ON role.id = employee.role_id;', (err, res) => {
       if (err) throw err;
-      const role = res.map(res => ({value:res.id, name:res.title}));
+      const role = res.map(res => ({value:res.role_id, name:res.title}));
+      const managers = res.map(res => ({value:res.id, name:res.first_name}));
 
   // console.log(role);
       prompt([
@@ -156,7 +157,7 @@ function addEmployee() {
       ])
         .then((res) => {
           const newRole = res;
-          db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('${newRole.first_name}', '${newRole.last_name}', '${newRole.role}', ${newRole.manager_id};`)
+          db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('${newRole.first_name}', '${newRole.last_name}', ${newRole.role}, ${newRole.manager})`);
           console.log(`Added ${newRole.first_name} as a new employee`)
           initilize();
         })
