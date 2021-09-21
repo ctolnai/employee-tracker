@@ -1,7 +1,7 @@
 {
   "name": "employee-tracker",
   "version": "1.0.0",
-  "description": "",
+  "description": "![License: Apache](https://img.shields.io/badge/License-Apache-blueviolet.svg)   ## Description   This application is a content management system used to manage a company's employee database.   ## Table of Contents   - [Installation](#installation)   - [Usage](#usage)   - [Questions](#questions)   - [License](#license)   - [Contribution](#contribution)   - [Tests](#tests)   ## Installation   The github repository is at https://github.com/ctolnai/employee-tracker",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -26,5 +26,6 @@
   "bugs": {
     "url": "https://github.com/ctolnai/employee-tracker/issues"
   },
-  "homepage": "https://github.com/ctolnai/employee-tracker#readme"
+  "homepage": "https://github.com/ctolnai/employee-tracker#readme",
+  "devDependencies": {}
 }

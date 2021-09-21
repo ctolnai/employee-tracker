@@ -14,7 +14,9 @@
 
   To install this application you must first clone the repository from Github.  In the terminal you must install NPM by entering "npm init -y", then "npm i".  Once this is complete you must create and populate your env file in order to access the db through SQL.  Then you must create the db and tables in MYSQL by using the schema in the db folder.  You can also then seed the db by using theseed information also in the db folder.  Once everything is populated you can spin up your server by typing in "npm start" in your terminal.  This will launch the application.  If you have any more questions please watch the video in this README or email me at christolnai@gmail.com.
   ## Usage
-  See the attached video for how the application functions
+  See the attached video for how the application functions:
+
+  https://drive.google.com/file/d/1F1Ua9SK0-jFWsYJnSU552PYB0J8zRIm6/view
   ## Questions
   https://github.com/ctolnai
 
