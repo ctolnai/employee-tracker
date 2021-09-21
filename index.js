@@ -116,7 +116,7 @@ function addRole() {
       },
     ])
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         db.query(`INSERT INTO role (title, salary, department_id) VALUES ('${res.title}', ${res.salary}, ${res.department_name})`);
 
         initilize();
