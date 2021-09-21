@@ -30,13 +30,13 @@ function initilize() {
       switch (res.todo) {
         case 'view all departments':
           db.query(`SELECT id AS 'DEPARTMENT ID', name AS 'DEPARTMENT NAME' FROM department`, function (err, results) {
-            console.table(results);
+            console.log('\n');console.table(results);
           });
           initilize();
           break;
         case 'view all roles':
           db.query(`SELECT role.title AS 'JOB TITLE', role.id AS 'ROLE ID', department.name AS 'DEPARTMENT', role.salary as 'SALARY' FROM department JOIN role ON role.department_id = department.id`, function (err, results) {
-            console.table(results);
+            console.log('\n');console.table(results);
           });
           initilize();
           break;
@@ -45,7 +45,7 @@ function initilize() {
         FROM department 
         JOIN role ON role.department_id = department.id
         JOIN employee ON employee.role_id = role.id`, function (err, results) {
-            console.table(results);
+          console.log('\n');console.table(results);
           });
           initilize();
           break;
