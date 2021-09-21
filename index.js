@@ -168,10 +168,9 @@ function addEmployee() {
 function updateEmployee() {
   db.query('SELECT * FROM employee JOIN role ON role.id = employee.role_id;', (err, res) => {
     if (err) throw err;
-    const role = res.map(res => ({ value: res.id, name: res.title }));
     const name = res.map(res => ({ value: res.id, name: res.first_name }));
-
-    // console.log(role);
+    const role = res.map(res => ({ value: res.id, name: res.title }));
+        // console.log(res);
     prompt([
       {
         type: 'list',
