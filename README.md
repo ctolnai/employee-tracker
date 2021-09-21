@@ -16,7 +16,7 @@
   ## Usage
   See the attached video for how the application functions:
 
-  https://drive.google.com/file/d/1F1Ua9SK0-jFWsYJnSU552PYB0J8zRIm6/view
+  https://drive.google.com/file/d/1xH5rd1LteMxbyd71R-6FKl_0kmpfDbd5/view
   ## Questions
   https://github.com/ctolnai
 
