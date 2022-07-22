@@ -3,16 +3,10 @@ const db = require('./config/connection');
 const { prompt } = require('inquirer');
 const { Router } = require('express');
 require("console.table");
-
 const app = express();
-const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-
-
-initilize();
 
 function initilize() {
   prompt
@@ -26,28 +20,15 @@ function initilize() {
     ])
     .then((res => {
       const todo = res.todo;
-      // console.log(res.todo)
       switch (res.todo) {
         case 'view all departments':
-          db.query(`SELECT id AS 'DEPARTMENT ID', name AS 'DEPARTMENT NAME' FROM department`, function (err, results) {
-            console.log('\n');console.table(results);
-          });
-          initilize();
+         viewDepartments();
           break;
         case 'view all roles':
-          db.query(`SELECT role.title AS 'JOB TITLE', role.id AS 'ROLE ID', department.name AS 'DEPARTMENT', role.salary as 'SALARY' FROM department JOIN role ON role.department_id = department.id`, function (err, results) {
-            console.log('\n');console.table(results);
-          });
-          initilize();
+          viewRoles();
           break;
         case 'view all employees':
-          db.query(`SELECT employee.id AS 'EMPLOYEE ID' , employee.first_name AS 'FIRST', employee.last_name AS 'LAST', role.title AS 'JOB TITLE', department.name as 'DEPARTMENT', role.salary as 'SALARY', employee.manager_id as 'MANAGER' 
-        FROM department 
-        JOIN role ON role.department_id = department.id
-        JOIN employee ON employee.role_id = role.id`, function (err, results) {
-          console.log('\n');console.table(results);
-          });
-          initilize();
+          viewEmployees();
           break;
         case 'add a department':
           addDepartment();
@@ -63,7 +44,6 @@ function initilize() {
           break;
         case 'quit':
           process.exit()
-          break;
         default:
 
           break;
@@ -71,9 +51,27 @@ function initilize() {
 
     }));
 };
-
-
-
+function viewDepartments(){
+  db.query(`SELECT id AS 'DEPARTMENT ID', name AS 'DEPARTMENT NAME' FROM department`, function (err, results) {
+    console.log('\n');console.table(results);
+  });
+  initilize();
+}
+function viewRoles(){
+  db.query(`SELECT role.title AS 'JOB TITLE', role.id AS 'ROLE ID', department.name AS 'DEPARTMENT', role.salary as 'SALARY' FROM department JOIN role ON role.department_id = department.id`, function (err, results) {
+    console.log('\n');console.table(results);
+  });
+  initilize();
+}
+function viewEmployees(){
+  db.query(`SELECT employee.id AS 'EMPLOYEE ID' , employee.first_name AS 'FIRST', employee.last_name AS 'LAST', role.title AS 'JOB TITLE', department.name as 'DEPARTMENT', role.salary as 'SALARY', employee.manager_id as 'MANAGER' 
+  FROM department 
+  JOIN role ON role.department_id = department.id
+  JOIN employee ON employee.role_id = role.id`, function (err, results) {
+    console.log('\n');console.table(results);
+    });
+    initilize();
+}
 function addDepartment() {
   prompt([
     {
@@ -87,16 +85,12 @@ function addDepartment() {
       db.query(`INSERT INTO department (name) VALUES ('${name.name}')`)
       initilize();
     })
-
 }
-
-
 
 function addRole() {
   db.query("SELECT * FROM department", (err, res) => {
     if (err) throw err;
-    // console.log(res.map(res => res))
-    let choice = res.map(res => ({ value: res.id, name: res.name }))
+    const choice = res.map(res => ({ value: res.id, name: res.name }))
     prompt([
       {
         type: 'input',
@@ -191,3 +185,5 @@ function updateEmployee() {
       })
   });
 };
+
+initilize();
