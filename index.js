@@ -45,7 +45,6 @@ function initilize() {
         case 'quit':
           process.exit()
         default:
-
           break;
       }
 
@@ -64,10 +63,7 @@ function viewRoles(){
   initilize();
 }
 function viewEmployees(){
-  db.query(`SELECT employee.id AS 'EMPLOYEE ID' , employee.first_name AS 'FIRST', employee.last_name AS 'LAST', role.title AS 'JOB TITLE', department.name as 'DEPARTMENT', role.salary as 'SALARY', employee.manager_id as 'MANAGER' 
-  FROM department 
-  JOIN role ON role.department_id = department.id
-  JOIN employee ON employee.role_id = role.id`, function (err, results) {
+  db.query(`SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;`, function (err, results) {
     console.log('\n');console.table(results);
     });
     initilize();
